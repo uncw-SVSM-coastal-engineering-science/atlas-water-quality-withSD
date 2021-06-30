@@ -4,9 +4,6 @@
 #include <Ezo_i2c.h>
 #include <Ezo_i2c_util.h>
 #include <iot_cmd.h>
-#include <sequencer1.h>                   //imports a 1 function sequencer 
-#include <sequencer2.h>
-#include <sequencer3.h>
 #include <sequencer4.h>                  //imports a 4 function sequencer 
 
 Ezo_board ph = Ezo_board(99, "PH");      //create a PH circuit object, who's address is 99 and name is "PH"
