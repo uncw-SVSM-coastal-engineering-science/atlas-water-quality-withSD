@@ -39,7 +39,7 @@ void loop() {
   else {                                                                                      //if the temperature reading is invalid
     ph.send_cmd_with_num("T,", 25.0);
     ec.send_cmd_with_num("T,", 25.0);                                                          //send default temp = 25 deg C to EC sensor
-    DO.send_cmd_with_num("T,", 20.0);
+    DO.send_cmd_with_num("T,", 25.0);
    }
  }
  void step3() { //send a read command. we use this command instead of PH.send_cmd("R");
