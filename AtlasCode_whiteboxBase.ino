@@ -44,6 +44,21 @@ void setup() {
     // don't do anything more:
     while (1);
   }
+
+  // open the file. note that only one file can be open at a time,
+  // so you have to close this one before opening another.
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    dataFile.println("time,temp,pH,cond,DO,");
+    dataFile.close();
+  }
+  
+  // if the file isn't open, pop up an error:
+  else {
+    Serial.println("error opening datalog.txt");
+  }
   
 }
 
@@ -74,48 +89,47 @@ void loop() {
  void step4() { //print data to serial monitor and to SD card
 
   // make a string for assembling the data to log:
-  String dataString = "";
+  String dataString = String(millis()/1000);
+  dataString += ",";
   
   //get the reading from the RTD circuit
   receive_and_print_reading(rtd);
-  if (rtd.get_error() == Ezo_board::SUCCESS);   //if the RTD reading was successful (back in step 1)
+  if (rtd.get_error() == Ezo_board::SUCCESS)   //if the RTD reading was successful (back in step 1)
   {
     dataString += String(rtd.get_last_received_reading());
-    dataString += ",";
     Serial.print("  ");
   }
-    
+  dataString += ",";  
   Serial.println();
   
   //get the reading from the PH circuit
   receive_and_print_reading(ph);
-  if (ph.get_error() == Ezo_board::SUCCESS); //if the pH reading was successful (back in step 2)
+  if (ph.get_error() == Ezo_board::SUCCESS) //if the pH reading was successful (back in step 2)
   {
     dataString += String(ph.get_last_received_reading());
-    dataString += ",";
     Serial.print("  ");
   }
+  dataString += ",";
   Serial.println();
   
   //get the reading from the EC circuit
   receive_and_print_reading(ec);
-  if (ec.get_error() == Ezo_board::SUCCESS); //if the EC reading was successful (back in step 2)
+  if (ec.get_error() == Ezo_board::SUCCESS) //if the EC reading was successful (back in step 2)
   {
     dataString += String(ec.get_last_received_reading());
-    dataString += ",";
     Serial.print("  ");
   }
+  dataString += ",";
   Serial.println();
   
   //get the reading from the DO circuit
   receive_and_print_reading(DO);   
-  dataString += String(DO.get_last_received_reading(), 2);
-  if (DO.get_error() == Ezo_board::SUCCESS); //if the DO reading was successful (back in step 2)
+  if (DO.get_error() == Ezo_board::SUCCESS) //if the DO reading was successful (back in step 2)
   {
-    dataString += String(do.get_last_received_reading());
-    dataString += ",";
+    dataString += String(DO.get_last_received_reading());
     Serial.print("  ");
   }
+  dataString += ",";
   Serial.println();  
 
   // open the file. note that only one file can be open at a time,
