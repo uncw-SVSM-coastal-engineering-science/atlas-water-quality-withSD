@@ -79,26 +79,43 @@ void loop() {
   //get the reading from the RTD circuit
   receive_and_print_reading(rtd);
   if (rtd.get_error() == Ezo_board::SUCCESS);   //if the RTD reading was successful (back in step 1)
+  {
+    dataString += String(rtd.get_last_received_reading());
+    dataString += ",";
     Serial.print("  ");
+  }
+    
   Serial.println();
   
   //get the reading from the PH circuit
   receive_and_print_reading(ph);
   if (ph.get_error() == Ezo_board::SUCCESS); //if the pH reading was successful (back in step 2)
+  {
+    dataString += String(ph.get_last_received_reading());
+    dataString += ",";
     Serial.print("  ");
+  }
   Serial.println();
   
   //get the reading from the EC circuit
   receive_and_print_reading(ec);
   if (ec.get_error() == Ezo_board::SUCCESS); //if the EC reading was successful (back in step 2)
+  {
+    dataString += String(ec.get_last_received_reading());
+    dataString += ",";
     Serial.print("  ");
+  }
   Serial.println();
   
   //get the reading from the DO circuit
   receive_and_print_reading(DO);   
   dataString += String(DO.get_last_received_reading(), 2);
   if (DO.get_error() == Ezo_board::SUCCESS); //if the DO reading was successful (back in step 2)
+  {
+    dataString += String(do.get_last_received_reading());
+    dataString += ",";
     Serial.print("  ");
+  }
   Serial.println();  
 
   // open the file. note that only one file can be open at a time,
